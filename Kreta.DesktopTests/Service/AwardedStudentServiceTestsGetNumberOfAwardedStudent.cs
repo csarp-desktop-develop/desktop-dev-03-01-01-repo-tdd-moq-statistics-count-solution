@@ -23,8 +23,10 @@ namespace Kreta.Desktop.Service.Tests
                 .Setup(mock => mock.FindAll())
                 .Returns(Enumerable.Empty<AwardedStudent>().ToList());
             // act
-
+            int actual = _awardedStudentService.GetNumberOfAwardedStudent();
             // assert
+            int expected = 0;
+            Assert.AreEqual(expected, actual);
         }
 
 
@@ -51,8 +53,10 @@ namespace Kreta.Desktop.Service.Tests
                 .Setup(mock => mock.FindAll())
                 .Returns(awardedStudents);
             // act
-
+            int actual = _awardedStudentService.GetNumberOfAwardedStudent();
             // assert
+            int expected = 3;
+            Assert.AreEqual(expected, actual);
 
         }
 
@@ -63,10 +67,46 @@ namespace Kreta.Desktop.Service.Tests
             Guid studentId1 = Guid.NewGuid();
             Guid studentId2 = Guid.NewGuid();
             Guid studentId3 = Guid.NewGuid();
-            
-            // act
 
+            List<AwardedStudent> awardedStudents = new List<AwardedStudent>
+            {
+                new AwardedStudent
+                {
+                    StudentId=studentId1,
+                },
+                new AwardedStudent
+                {
+                    StudentId=studentId2,
+                },
+                new AwardedStudent
+                {
+                    StudentId=studentId3,
+                },
+                new AwardedStudent
+                {
+                    StudentId=studentId1,
+                },
+                new AwardedStudent
+                {
+                    StudentId=studentId3,
+                },
+                new AwardedStudent
+                {
+                    StudentId=studentId3,
+                },
+
+            };
+
+
+            _awardedStudentRepoMock
+                .Setup(mock => mock.FindAll())
+                .Returns(awardedStudents);
+
+            // act
+            int actual = _awardedStudentService.GetNumberOfAwardedStudent();
             // assert
+            int expected = 3;
+            Assert.AreEqual(expected, actual);
         }
     }
 }

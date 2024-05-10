@@ -1,4 +1,5 @@
 ﻿using Kreta.Desktop.Repos;
+using System.Linq;
 
 namespace Kreta.Desktop.Service
 {
@@ -13,7 +14,11 @@ namespace Kreta.Desktop.Service
 
         public int GetNumberOfAwardedStudent()
         {
-            return 0;
+            return _awardedStudentRepo
+                .FindAll()
+                .Select(awardedStudent => awardedStudent.StudentId)
+                .Distinct()
+                .Count();
         }
     }
 }
